@@ -1,19 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native';
-import Signup from './screens/Signup';
+import AppRoutes from './AppRoutes';
+import { AuthProvider } from './context/auth';
+import { TaskProvider } from './context/task';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Signup />
-    </View>
+    <AuthProvider>
+      <TaskProvider>
+        <AppRoutes />
+      </TaskProvider>
+    </AuthProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

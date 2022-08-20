@@ -8,25 +8,17 @@ import axios from 'axios'
 import { AuthContext } from '../context/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Signup = ({ navigation }) => {
+const Signin = ({ navigation }) => {
 	const [auth, setAuth] = useContext(AuthContext);
 
-	const [name, setName] = useState("")
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
-	const [confirm, setConfirm] = useState("")
 	const [loading, setLoading] = useState(false)
 
 	const handleSubmit = async () => {
 		try {
-			if (password !== confirm) {
-				alert("Passwords do not match")
-				return
-			}
-
 			setLoading(true)
-			const {data} = await axios.post('/signup', {
-				name,
+			const {data} = await axios.post('/signin', {
 				email,
 				password
 			})
@@ -36,8 +28,8 @@ const Signup = ({ navigation }) => {
 			} else {
 				setAuth(data)
 				await AsyncStorage.setItem('@auth', JSON.stringify(data));
-				alert("Registration successful")
-				setLoading(false)
+				alert("Login successful")
+				//setLoading(false)
 				navigation.navigate("Home")
 			}
 		} catch (error) {
@@ -64,15 +56,9 @@ const Signup = ({ navigation }) => {
 				>
 					<View style={{ flex: 1, justifyContent: "center", margin: 20 }}>
 						<Text title heavy center color="#fff" style={{ marginBottom: 50 }}>
-							Register
+							Login
 						</Text>
-
-						<Input 
-							name="Name" 
-							value={name} 
-							setValue={setName} 
-							autoCapitalize="words"
-						/>
+                        
 						<Input 
 							name="Email" 
 							value={email} 
@@ -85,22 +71,27 @@ const Signup = ({ navigation }) => {
 							setValue={setPassword} 
 							secureTextEntry={true} 
 						/>
-						<Input 
-							name="Confirm Password" 
-							value={confirm} 
-							setValue={setConfirm}
-							secureTextEntry={true} 
-						/>
 
 						<Button title="Submit" loading={loading} handleSubmit={handleSubmit} />
-					
-						<Text small center style={{ color: "#fff", marginTop: 10 }}>
-                            Already registered?{" "}
+
+                        <Text small center style={{ color: "#fff", marginTop: 10 }}>
+                            Don't have an account?{" "}
                             <Text 
-                                onPress={() => navigation.navigate("Signin")} 
+                                onPress={() => navigation.navigate("Signup")} 
                                 style={{ color: "#fff" }}
                             >
-                                Login
+                                Register
+                            </Text>
+                        </Text>
+
+                        <Text small center style={{ color: "#fff", marginTop: 10 }}>
+                            <Text 
+                                center
+                                small
+                                onPress={() => navigation.navigate("ForgotPassword")} 
+                                style={{ color: "#fff", marginTop: 10 }}
+                            >
+                                Forgot Password
                             </Text>
                         </Text>
 					</View>
@@ -109,4 +100,4 @@ const Signup = ({ navigation }) => {
 	)
 }
 
-export default Signup
+export default Signin
