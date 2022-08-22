@@ -51,6 +51,17 @@ const TaskEdit = ({ navigation }) => {
         }
     }
 
+    const handleDelete = async () => {
+        try {
+            const {data} = await axios.delete(`/task/${task?.selected?._id}`);
+            setTask({ ...task, tasks: task.tasks.filter(t => t._id !== data._id) })
+            alert("Task deleted")
+            navigation.goBack()
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{
@@ -71,7 +82,18 @@ const TaskEdit = ({ navigation }) => {
                     color='#333'
                 />
 
-                <Button title="Submit" loading={loading} handleSubmit={handleSubmit} />
+                <Button 
+                    title="Submit" 
+                    loading={loading} 
+                    handleSubmit={handleSubmit} 
+                />
+                <Text style={{ marginVerticle: 10 }}></Text>
+                <Button 
+                    title="Delete" 
+                    loading={loading} 
+                    handleSubmit={handleDelete}
+                    color="#ff4d4d" 
+                />
             </View>
         </KeyboardAwareScrollView>
     )
