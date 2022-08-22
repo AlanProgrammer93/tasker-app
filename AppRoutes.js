@@ -12,6 +12,7 @@ import ForgotPassword from './screens/ForgotPassword';
 import Feather from 'react-native-vector-icons/Feather'
 import Tasks from './screens/Tasks';
 import Add from './screens/Add';
+import TaskEdit from './screens/TaskEdit';
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -30,9 +31,17 @@ export default function AppRoutes() {
             <Tab.Navigator
                 screenOptions={{
                     tabBarStyle: { height: 100 },
+                    headerRight: () => (
+                        <Feather
+                            name="log-out"
+                            onPress={logout}
+                            size={16}
+                            style={{ marginHorizontal: 10 }}
+                        />
+                    )
                 }}
             >
-                <Tab.Screen 
+                <Tab.Screen
                     name='Tasks'
                     component={Tasks}
                     options={{
@@ -40,7 +49,7 @@ export default function AppRoutes() {
                             <Text style={{ color: focused ? "#433362" : color }}>Tasks</Text>
                         ),
                         tabBarIcon: ({ focused, color, size }) => (
-                            <Feather 
+                            <Feather
                                 name={focused ? "database" : "minimize"}
                                 size={size}
                                 color={focused ? "#433362" : color}
@@ -48,7 +57,7 @@ export default function AppRoutes() {
                         )
                     }}
                 />
-                <Tab.Screen 
+                <Tab.Screen
                     name='Add'
                     component={Add}
                     options={{
@@ -56,8 +65,8 @@ export default function AppRoutes() {
                             <Text style={{ color: focused ? "#433362" : color }}>Add</Text>
                         ),
                         tabBarIcon: ({ focused, color, size }) => (
-                            <Feather 
-                                name={focused ? "database" : "minimize"}
+                            <Feather
+                                name={focused ? "plus-circle" : "minimize"}
                                 size={size}
                                 color={focused ? "#433362" : color}
                             />
@@ -84,6 +93,12 @@ export default function AppRoutes() {
                                         <Feather name="log-out" onPress={logout} size={16} />
                                     )
                                 }}
+                            />
+
+                            <Stack.Screen
+                                name='TaskEdit'
+                                component={TaskEdit}
+                                options={{ title: "Task Edit" }}
                             />
                         </>
                     ) : (
